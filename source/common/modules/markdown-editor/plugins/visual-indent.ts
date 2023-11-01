@@ -99,6 +99,18 @@ function render (view: EditorView, measurements?: Map<string, number>): Decorati
         if (after === 0) {
           return // Could not retrieve coordinates
         }
+        if (measurementKey === '    - ') {
+          var tmp = '';
+          for (var n = 0; n < columnLineTextStart; ++n) {
+            const coords = view.coordsForChar(line.from + n);
+            if (coords) {
+              tmp += '<' + line.text.slice(n, n+1) + '>:' + coords.left + ' w: ' + (coords.right-coords.left) + '\t';
+            } else {
+              tmp += '<' + line.text.slice(n, n+1) + '>:null\t';
+            }
+          }
+          console.log(tmp);
+        }
         // Note that this continuously updates our measurements after any layout
         // changes
         measurements?.set(measurementKey, after - base)
